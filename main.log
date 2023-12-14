@@ -1,0 +1,32 @@
+2023-12-14 14:43:52,451 INFO (12900 MainThread) - Information -> 100 - Init OpenAI
+2023-12-14 14:43:52,466 INFO (12900 MainThread) - Information -> 100 - Load llama-index RAG chain for Openai GPT4 model
+2023-12-14 14:43:52,468 INFO (12900 MainThread) - Information -> 100 - Init OpenAI
+2023-12-14 14:43:52,470 INFO (12900 MainThread) - Information -> 100 - Loading RAG docs from JFLEG database
+2023-12-14 14:43:54,310 INFO (12900 MainThread) - Information -> 100 - Get dataset from data/jfleg.csv
+2023-12-14 14:43:55,073 INFO (12900 MainThread) - Information -> 100 - Building vector store index
+2023-12-14 14:45:29,329 INFO (12900 MainThread) - Information -> 100 - Building vector store summary index
+2023-12-14 14:45:30,013 INFO (12900 MainThread) - Information -> 100 - Init OpenAI
+2023-12-14 14:45:30,028 INFO (12900 MainThread) - Information -> 100 - load the T5 tokenizer and model for summarization
+Enter your text: It's fantastic to have a doctor like you—so talented, clear-minded, and focused on your expertise. I tried a local doctor, and it was disappointing. You're undoubtedly one of the best in treating floaters. I hope to see you soon as your patient.
+Choose a function ([1] write_properly, [2] write_the_same_grammar_fixed, [3] summarization_with_t5): 3
+2023-12-14 14:45:44,243 INFO (12900 MainThread) - Information -> 100 - Summarize with HF T5
+Summarize this text: I tried a local doctor, and it was disappointing. You're undoubtedly one of the best in treating floaters. I hope to see you soon as your patient.
+Enter your text: It fantast to have a doctor like you—so talented, clear-minded, and focused on yours expertise. I try a local doctor, and it was disappointing.
+Choose a function ([1] write_properly, [2] write_the_same_grammar_fixed, [3] summarization_with_t5): 1
+2023-12-14 14:45:59,801 INFO (12900 MainThread) - Information -> 100 - Write properly with HF Vannity
+Grammar correction:
+It fantastizes to have a doctor like you—so talented, clear-minded, and focused on your expertise. I tried a local doctor, and it was disappointing.
+Enter your text: It's fantastic to have a doctor like you—so talented, clear-minded, and focused on your expertise. I tried a local doctor, and it was disappointing. You're undoubtedly one of the best in treating floaters. I hope to see you soon as your patient.
+Choose a function ([1] write_properly, [2] write_the_same_grammar_fixed, [3] summarization_with_t5): 2
+2023-12-14 14:46:25,993 INFO (12900 MainThread) - Information -> 100 - Write good style with RAG and llama_index
+Rewrite style:
+1. Your proficiency as a doctor is truly remarkable—with a clear mind, exceptional talent, and a keen focus on your specialty. My previous experience with a local doctor was quite unsatisfactory. When it comes to treating floaters, you are undoubtedly among the best. I look forward to being under your care soon.
+
+2. It's a privilege to have a doctor like you, one who is incredibly skilled, clear-headed, and devoted to your field of expertise. My encounter with a local doctor was less than satisfactory. In the realm of floater treatment, you are undeniably one of the finest. I eagerly anticipate my next appointment as your patient.
+
+3. Having a doctor like you, who is both highly talented and clear-minded, is truly wonderful. A previous visit to a local doctor left me disappointed. But, in the treatment of floaters, you stand out as one of the best. I eagerly await my next visit as your patient.
+
+4. It's a pleasure to know a doctor like you—with your clear thinking, impressive skills, and focused expertise. My experience with a local doctor was not up to the mark. Undeniably, you are one of the best when it comes to treating floaters. I'm looking forward to my next appointment with you.
+Enter your text:
+Choose a function ([1] write_properly, [2] write_the_same_grammar_fixed, [3] summarization_with_t5): quit
+Invalid function. Please choose one of the available functions.

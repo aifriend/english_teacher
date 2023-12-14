@@ -1,0 +1,4 @@
+evaluate~=0.4.1
+rouge_score~=0.1.2
+git+https://github.com/google-research/bleurt.git
+py7zr~=0.20.8
