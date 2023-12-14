@@ -7,8 +7,8 @@ class EnglishImprovementAgentStyle:
 
     def __init__(self):
         self.logger = loggerElk(__name__)
-        self.ll_idx_service = WriteStyleLlamaIndex()
-        self.ins_service = WriteProperlyInstruct()
+        self.ll_idx_service = None
+        self.ins_service = None
 
     def write_the_same_grammar_fixed_with_llama_index_rag(self, input_text):
         """
@@ -19,6 +19,8 @@ class EnglishImprovementAgentStyle:
         :return:
         """
         self.logger.Information("Write good style with RAG and llama_index")
+        if self.ll_idx_service is None:
+            self.ll_idx_service = WriteStyleLlamaIndex()
         response = self.ll_idx_service.write_the_same_grammar_fixed(input_text)
         return response
 
@@ -31,5 +33,7 @@ class EnglishImprovementAgentStyle:
         :return:
         """
         self.logger.Information("Write good style with RAG and Q&A plus vector search retrieval")
+        if self.ins_service is None:
+            self.ins_service = WriteProperlyInstruct()
         response = self.ins_service.write_the_same_grammar_fixed(input_text)
         return response

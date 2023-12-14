@@ -2,6 +2,7 @@ import os
 
 import openai
 from dotenv import load_dotenv
+from langchain_community.document_loaders import CSVLoader
 from llama_index import download_loader
 from llama_index.llms import OpenAI
 
@@ -15,7 +16,6 @@ class LlmOpenAiService(LlmService):
 
     def __init__(self, model_name=''):
         super().__init__()
-        self.logger.Information("Init OpenAI")
         self.model_name = model_name
         load_dotenv()  # load the environment variables from the .env file
         self.api_key = os.getenv('OPENAI_API_KEY')
@@ -50,4 +50,12 @@ class LlmOpenAiService(LlmService):
         self.documents = loader.load_data(
             file=os.path.join(self.root_path, ds_path))
 
-        return self.documents
+        return self.documents[:self.MAX_DOCS]
+
+    def get_doc_from_langchain(self, ds_path):
+        self.logger.Information(f'Get dataset from {ds_path}')
+        simple_csv_reader = CSVLoader(
+            file_path=os.path.join(self.root_path, ds_path))
+        self.documents = simple_csv_reader.load()
+
+        return self.documents[:self.MAX_DOCS]

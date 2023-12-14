@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 
+from english_improvement_agent.LlmOpenAiService import LlmOpenAiService
 from english_improvement_agent.commonsLib import loggerElk
 
 
@@ -8,6 +9,7 @@ class EnglishAgentInterface:
     def __init__(self):
         self.logger = loggerElk(__name__)
         load_dotenv()  # load the environment variables from the .env file
+        self.openai_serv = LlmOpenAiService(model_name="gpt-4")
         self.tokenizer = None
         self.model = None
 

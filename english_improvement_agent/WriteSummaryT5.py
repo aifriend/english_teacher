@@ -15,7 +15,6 @@ class WriteSummaryT5(EnglishAgentInterface):
         """
         super().__init__()
         # Load the T5 tokenizer and model for summarization
-        self.logger.Information("load the T5 tokenizer and model for summarization")
         self.t5_tokenizer = AutoTokenizer.from_pretrained("t5-small")
         self.t5_model = AutoModelForSeq2SeqLM.from_pretrained("t5-small")
 

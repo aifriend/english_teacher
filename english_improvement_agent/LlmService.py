@@ -4,6 +4,7 @@ from english_improvement_agent.commonsLib import loggerElk
 
 
 class LlmService:
+    MAX_DOCS = 500
 
     def __init__(self):
         self.llm = None

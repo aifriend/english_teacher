@@ -2,16 +2,13 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 
 from english_improvement_agent.EnglishAgentInterface import EnglishAgentInterface
-from english_improvement_agent.LlmOpenAiService import LlmOpenAiService
 
 
 class WriteProperlyInstruct(EnglishAgentInterface):
 
     def __init__(self):
         super().__init__()
-        self.openai_serv = LlmOpenAiService(model_name="gpt-4")
         self.openai_serv.init_legacy()
-
         self.model = self.openai_serv
 
     def write_properly(self, input_text, max_length=256):

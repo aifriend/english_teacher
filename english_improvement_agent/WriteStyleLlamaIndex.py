@@ -1,5 +1,3 @@
-import os.path
-
 from langchain_core.prompts import PromptTemplate
 from llama_index import ServiceContext, VectorStoreIndex, SummaryIndex, PromptHelper, OpenAIEmbedding, Prompt, \
     get_response_synthesizer
@@ -10,18 +8,15 @@ from llama_index.response_synthesizers import ResponseMode
 from llama_index.tools import QueryEngineTool, ToolMetadata
 
 from english_improvement_agent.EnglishAgentInterface import EnglishAgentInterface
-from english_improvement_agent.LlmOpenAiService import LlmOpenAiService
 
 
 class WriteStyleLlamaIndex(EnglishAgentInterface):
 
     def __init__(self):
         super().__init__()
-
         self.logger.Information(
             "Load llama-index RAG chain for Openai GPT4 model")
-        openai_serv = LlmOpenAiService(model_name="gpt-4")
-        openai_serv.init(temp=0.5, max_token=2000)
+        self.openai_serv.init(temp=0.5, max_token=2000)
 
         # create the service context
         self.logger.Information("Loading RAG docs from JFLEG database")
@@ -32,24 +27,23 @@ class WriteStyleLlamaIndex(EnglishAgentInterface):
             chunk_size_limit=None
         )
         self.service_context = ServiceContext.from_defaults(
-            llm=openai_serv.llm,
+            llm=self.openai_serv.llm,
             embed_model=OpenAIEmbedding(),
             prompt_helper=prompt_helper,
             llama_logger=LlamaLogger()
         )
 
-        # load documents from the dataset JFLEG. JFLEG is for developing and
-        # evaluating grammatical error correction (GEC).
-        documents = openai_serv.get_doc_from_llama_index(ds_path='data/jfleg.csv')
+        # load documents from the dataset JFLEG
+        documents = self.openai_serv.get_doc_from_llama_index(ds_path='data/jfleg.csv')
 
         # create vector index and summary_index tools
         self.logger.Information("Building vector store index")
-        vector_store_path = os.path.join(openai_serv.root_path, 'data/index')
-        # TODO: improve performance loading storage_context if persisted
         self.vector_index = VectorStoreIndex.from_documents(
             documents, service_context=self.service_context)
-        self.vector_index.storage_context.persist(
-            persist_dir=vector_store_path)
+        # TODO: improve performance loading storage_context if persisted
+        # vector_store_path = os.path.join(self.openai_serv.root_path, 'data/index')
+        # self.vector_index.storage_context.persist(
+        #     persist_dir=vector_store_path)
         self.logger.Information("Building vector store summary index")
         self.summary_index = SummaryIndex.from_documents(
             documents, service_context=self.service_context)
