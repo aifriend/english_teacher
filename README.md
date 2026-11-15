@@ -12,8 +12,8 @@ To set up and run the application, follow these steps:
 
 1. Clone the repository.
 2. Install the required Python packages using `pip install -r requirements.txt`.
-3. Set your OpenAI API key in the `config.py` file.
-4. Run the application using `python main.py`.
+3. Create a `.env` file in the repository root (it is git-ignored) and set `OPENAI_API_KEY` in it. The code reads it with `python-dotenv`; there is no `config.py`. A `.env.example` template is not yet included in the repository, so create the file by hand. The Hugging Face based models log in through `huggingface_hub`, which reads `HF_TOKEN` from the environment. Optional logging variables are `LOG_LEVEL`, `LIBRARIES_LOG_LEVEL`, `FILE_ENABLED` and `LOG_FILE`.
+4. Run the command line application using `python main.py`, or the Gradio web interface using `python visualization/visualize.py`.
 
 ## Prompt Engineering for RAG
 
@@ -26,45 +26,18 @@ We consider the following factors to ensure the model understands the distinctio
 
 - **Use clear and concise instructions**: The prompts are written in a straightforward manner, avoiding ambiguous or complex language.
 - **Emphasize the desired outcome**: The prompts explicitly state the goal of each function, whether it's improving grammar, style, or both.
-- **Provide examples**: The prompts include examples of input and output to help the model understand the expected behavior.
-
-## API Utilization Strategy
-
-We utilize the OpenAI API efficiently and effectively by:
-
-- **Batching requests**: We send multiple requests to the API in a single batch, reducing the number of API calls and optimizing performance.
-- **Caching responses**: We cache the API responses to avoid sending duplicate requests for the same input.
-- **Handling rate limits**: We implement a rate limiting mechanism to ensure we don't exceed the API's request limits.
-
-## Handling Ambiguity in User Inputs
-
-To handle ambiguities in user inputs, we employ the following strategies:
-
-- **Contextual understanding**: We use the context of the input message to disambiguate ambiguous words or phrases.
-- **User interaction**: We provide the user with the option to clarify ambiguous parts of their input, improving the accuracy of the output.
-- **Fallback mechanism**: In cases where ambiguity cannot be resolved, we provide a fallback response that acknowledges the ambiguity and suggests alternative interpretations.
 
 ## Summarization Technique
 
-We implement the 'Summarize' function using the following approach:
-
-- **Text summarization model**: We use a pre-trained text summarization model from the Transformers library.
-- **Input preprocessing**: We preprocess the input message to remove unnecessary details and extract the main points.
-- **Summary generation**: We generate a summary of the input message using the summarization model.
-- **Post-processing**: We post-process the summary to ensure it is coherent, concise, and retains the essential information from the original message.
+The 'summarization_with_t5' function uses the pre-trained `t5-small` model from the Transformers library. The input is prefixed with "Summarize this text: " and the summary is generated with beam search and a maximum length of 500 tokens.
 
 ## Performance Metrics and Evaluation
 
-We use the following metrics to evaluate the performance of each function in the application:
-
-- **Accuracy**: We measure the accuracy of the 'write_properly' and 'write_the_same_grammar_fixed' functions by comparing the output with human-generated corrections.
-- **Fluency**: We evaluate the fluency of the output by measuring its readability, naturalness, and coherence.
-- **Conciseness**: We assess the conciseness of the 'summarization_with_t5' function by measuring the length of the summary relative to the original message.
-- **Informativeness**: We evaluate the informativeness of the summary by measuring its ability to capture the main points of the original message.
-
-We gather feedback or data to improve the system continuously through user surveys, error analysis, and A/B testing. Prompt engineering plays a crucial role in this process by allowing us to fine-tune the prompts to achieve better performance and handle edge cases more effectively.
+The evaluation script is `reports/run_eval.py`; see its results in [evaluation.log](reports%2Fevaluation.log) and [README.md](reports%2FREADME.md).
 
 ## Technical Questions
+
+The sections below are design notes and proposals. They describe approaches that were considered and are not all implemented in the code.
 
 ### Prompt Engineering for RAG
 
@@ -199,7 +172,7 @@ Utility Functions: This involves additional utility functions such as Webretrive
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     │
-    ├── src                <- Source code for use in this project.
+    ├── english_improvement_agent <- Source code for use in this project.
     │
     ├── visualization  <- Scripts to create exploratory and results oriented visualizations
     │
