@@ -75,25 +75,23 @@ class WriteStyleLlamaIndex(EnglishAgentInterface):
             select_multi=False
         )
 
+    GRAMMAR_ONLY_TEMPLATE = """
+Your task is to correct ONLY the grammatical errors in the provided text: verb forms, subject-verb agreement, articles, prepositions, punctuation and spelling. Do not change the style, tone, word choice or sentence structure, and do not add or remove information. Keep the original meaning exactly.
+
+Original sentence:
+{input_text}
+
+Desired output:
+- A grammatically correct version of the sentence
+- The original style, tone and wording preserved wherever they are already correct
+
+Return only the corrected sentence.
+"""
+
     def write_the_same_grammar_fixed(self, input_text, max_length=4000):
         rag_prompt = PromptTemplate(
             input_variables=["input_text"],
-            template=("""
-Your task is to refine and improve the grammar and style of the provided text. Ensure that the output is grammatically correct, coherent, and exhibits a sophisticated writing style. Pay attention to sentence structure, word choice, and overall fluency. While maintaining the original meaning, aim to elevate the expressiveness and clarity of the text. Feel free to rephrase, reword, and enhance the language as needed.
-
-I'm working on improving my English writing skills. Can you help me rewrite this text to make it sound more natural and fluent, with better grammar and style?
-
-Original sentence to be improved in grammar and style:
-{input_text}
-
-Desired corrections in output:
-- Improved grammar and style
-- Retain the original meaning of the sentence
-- Generate a variety of outputs
-
-Please rewrite the text for me, making the necessary corrections and improvements and generate multiples outputs\n
-"""
-                      ),
+            template=self.GRAMMAR_ONLY_TEMPLATE,
         )
         # The augmented context for the input to handle ambiguities and context-specific nuances in user inputs
         rag_question = rag_prompt.format(
